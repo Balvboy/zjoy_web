@@ -148,20 +148,6 @@
 			<artifactId>dd-plist</artifactId>
 			<version>1.16</version>
 		</dependency>
-		<dependency>
-			<groupId>Lite</groupId>
-			<artifactId>Lite</artifactId>
-			<version>20111106</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/Lite-20111106.jar</systemPath>
-		</dependency> 
-		<dependency>
-			<groupId>quantum</groupId>
-			<artifactId>auth</artifactId>
-			<version>1.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/quantum-auth-1.0-SNAPSHOT.jar</systemPath>
-		</dependency> 		
 		 
 		<!-- standard.jar --> 
 		<dependency>
