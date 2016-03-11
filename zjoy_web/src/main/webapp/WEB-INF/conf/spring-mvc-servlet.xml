@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:context="http://www.springframework.org/schema/context"
+ xmlns:util="http://www.springframework.org/schema/util"
+ xmlns:mvc="http://www.springframework.org/schema/mvc"
+ xmlns:p="http://www.springframework.org/schema/p"
+ xmlns:aop="http://www.springframework.org/schema/aop"   
+ xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+<!--  	<bean class="zjoy.web.common.framework.spring.UTF8StringBeanPostProcessor"></bean>
+ -->	
+	<aop:aspectj-autoproxy/><!-- 支持 @AspectJ 标记-->  
+	
+	<!-- 基于注解方式, spring mvc 要扫描的包 -->
+	<!-- 让spring mvc 知道去扫描哪些controller -->
+	<context:component-scan base-package="zjoy.web.**.controller"/>
+	
+	
+	<mvc:annotation-driven/>
+	
+	<!-- 静态内容过滤处理,以下配置路径不会被spring当作请求controller处理 -->
+	<mvc:resources location="/resources/" mapping="/resources/**"/>
+	<mvc:resources location="/cutImages/" mapping="/cutImages/**" />
+	<mvc:resources location="/upload/" mapping="/upload/**" />
+	<mvc:resources location="index.html" mapping="index.html" />
+	<mvc:resources location="/" mapping="*.jpg" />
+	<!-- 模型视图名称,匹配contoller中返回的名称 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="" p:suffix="" />
+	
+	<!-- 拦截器 -->
+ 	<mvc:interceptors> 
+	<!-- 用来记录访问日志 -->
+ 		<bean class="zjoy.web.log.OperationLoggerInterceptor"/> 
+ 		<bean class="zjoy.web.interceptor.AuthorityInterceptor"/>     
+    <!-- 用来记录 -->
+        <bean class="zjoy.web.interceptor.LimitVisitInterceptor"/>
+ 	</mvc:interceptors>	 
+ 	
+ 	
+ 	 <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">  
+         <property name="urlMap">  
+             <map>  
+                  <entry key="/请求的文件路径/**" value="myResourceHandler" />  
+             </map>  
+         </property>  
+         <property name="order" value="100000" />         
+    </bean>  
+      
+      
+    <bean id="myResourceHandler" name="myResourceHandler"  
+          class="org.springframework.web.servlet.resource.ResourceHttpRequestHandler">  
+          <property name="locations" value="/请求的文件路径/" />  
+          <property name="supportedMethods">  
+             <list>  
+                <value>GET</value>  
+                <value>HEAD</value>  
+                <value>POST</value>  
+             </list>  
+         </property>  
+    </bean>  
+ 	
+ 	
+</beans>
+
+	
